@@ -10,7 +10,7 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import { Menu, X, Star, Award, Link2, Layers, Check, ChevronRight } from "lucide-react";
 
-const API_BASE = 'http://localhost:5000/api';
+const API_BASE = 'https://wrap-up.onrender.com/api';
 
 export default function Navbar() {
   const { userPoints, displayName, setUserPoints, setDisplayName } = useArticleStore();

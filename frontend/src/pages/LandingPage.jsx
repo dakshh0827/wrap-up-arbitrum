@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { useArticleStore } from "../stores/articleStore";
 import { useAccount, useWriteContract, useWaitForTransactionReceipt, useSwitchChain } from "wagmi";
-import { CONTRACT_ABI, CONTRACT_ADDRESS, monadTestnet } from "../wagmiConfig";
+import { CONTRACT_ABI, CONTRACT_ADDRESS, mantleSepolia } from "../wagmiConfig";
 import { decodeEventLog } from "viem";
 import axios from "axios";
 import { Search, X, Link2, BookOpen, Zap, Link as LinkIcon, Save, Layers, ArrowRight } from "lucide-react";
@@ -63,8 +63,8 @@ export default function LandingPage() {
       const submitToContract = () => {
         writeContract({ address: CONTRACT_ADDRESS, abi: CONTRACT_ABI, functionName: 'submitArticle', args: [ipfsHash] });
       };
-      if (chainId !== monadTestnet.id) {
-        switchChain({ chainId: monadTestnet.id }, {
+      if (chainId !== mantleSepolia.id) {
+        switchChain({ chainId: mantleSepolia.id }, {
           onSuccess: () => submitToContract(),
           onError: () => { toast.error("Network switch failed", { id: loadingToast }); setLoading(false); }
         });

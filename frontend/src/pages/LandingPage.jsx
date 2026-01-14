@@ -10,7 +10,7 @@ import { decodeEventLog } from "viem";
 import axios from "axios";
 import { Search, X, Link2, BookOpen, Zap, Link as LinkIcon, Save, Layers, ArrowRight } from "lucide-react";
 
-const API_BASE = 'http://localhost:5000/api';
+const API_BASE = 'https://wrap-up.onrender.com/api';
 
 export default function LandingPage() {
   const [url, setUrl] = useState('');

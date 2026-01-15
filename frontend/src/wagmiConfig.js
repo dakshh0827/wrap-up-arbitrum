@@ -1,13 +1,7 @@
-wagmi config will be:
-
-
-// File: src/wagmiConfig.js
-import { http, createConfig } from 'wagmi'
-import { arbitrumSepolia } from 'wagmi/chains'
-import { injected } from 'wagmi/connectors'
-
-import { createWeb3Modal } from '@web3modal/wagmi/react';
+// Remove unused imports to prevent build errors
 import { defaultWagmiConfig } from '@web3modal/wagmi/react/config';
+import { createWeb3Modal } from '@web3modal/wagmi/react';
+import { arbitrumSepolia } from 'wagmi/chains';
 
 // 1. Get projectId
 export const projectId = import.meta.env.VITE_WALLETCONNECT_PROJECT_ID;
@@ -16,33 +10,33 @@ if (!projectId) {
 }
 
 // 2. Define Chains
-// Use Arbitrum Sepolia as the active chain
+// We explicitly set the active chain to Arbitrum Sepolia
 export const activeChain = arbitrumSepolia;
-
 const chains = [activeChain];
 
 // 3. Create wagmiConfig
 const metadata = {
-  name: 'Wrap-Up', // Updated branding
+  name: 'Wrap-Up',
   description: 'A Decentralised Web3 News Curation Platform on Arbitrum',
-  url: 'https://monadfeed.xyz', 
+  url: 'https://monadfeed.xyz', // Ensure this matches your actual domain
   icons: ['https://avatars.githubusercontent.com/u/37784886'],
 };
 
+// We use 'wagmiConfig' as the variable name to avoid conflicts with 'config' keywords
 export const wagmiConfig = defaultWagmiConfig({
   chains,
   projectId,
   metadata,
   enableWalletConnect: true,
-  enableOnramp: true,
-  enableEmail: true,
+  enableInjected: true, // Newer Web3Modal syntax prefers this over enableOnramp sometimes
+  enableEIP6963: true,
+  enableCoinbase: true,
 });
 
 // 4. Create modal
 createWeb3Modal({
   wagmiConfig,
   projectId,
-  chains,
   defaultChain: activeChain,
   themeMode: 'dark',
   themeVariables: {
@@ -51,7 +45,9 @@ createWeb3Modal({
   },
 });
 
-// 5. Export Contract Details & ABIs
+// 5. Export Contract Details
+// IMPORTANT: Ensure VITE_CONTRACT_ADDRESS in your .env is your ARBITRUM address
+export const CONTRACT_ADDRESS = import.meta.env.VITE_CONTRACT_ADDRESS;
 
 // Import ABIs (Kept exactly as provided)
 const MonadFeedABI = {"abi":[{"type":"function","name":"articleComments","inputs":[{"name":"","type":"uint256","internalType":"uint256"},{"name":"","type":"uint256","internalType":"uint256"}],"outputs":[{"name":"","type":"uint256","internalType":"uint256"}],"stateMutability":"view"},{"type":"function","name":"articleCount","inputs":[],"outputs":[{"name":"","type":"uint256","internalType":"uint256"}],"stateMutability":"view"},{"type":"function","name":"articles","inputs":[{"name":"","type":"uint256","internalType":"uint256"}],"outputs":[{"name":"ipfsHash","type":"string","internalType":"string"},{"name":"curator","type":"address","internalType":"address"},{"name":"upvoteCount","type":"uint256","internalType":"uint256"},{"name":"timestamp","type":"uint256","internalType":"uint256"},{"name":"exists","type":"bool","internalType":"bool"}],"stateMutability":"view"},{"type":"function","name":"commentCount","inputs":[],"outputs":[{"name":"","type":"uint256","internalType":"uint256"}],"stateMutability":"view"},{"type":"function","name":"comments","inputs":[{"name":"","type":"uint256","internalType":"uint256"}],"outputs":[{"name":"ipfsHash","type":"string","internalType":"string"},{"name":"articleId","type":"uint256","internalType":"uint256"},{"name":"commenter","type":"address","internalType":"address"},{"name":"upvoteCount","type":"uint256","internalType":"uint256"},{"name":"timestamp","type":"uint256","internalType":"uint256"},{"name":"exists","type":"bool","internalType":"bool"}],"stateMutability":"view"},{"type":"function","name":"displayNames","inputs":[{"name":"","type":"address","internalType":"address"}],"outputs":[{"name":"","type":"string","internalType":"string"}],"stateMutability":"view"},{"type":"function","name":"getArticle","inputs":[{"name":"_articleId","type":"uint256","internalType":"uint256"}],"outputs":[{"name":"ipfsHash","type":"string","internalType":"string"},{"name":"curator","type":"address","internalType":"address"},{"name":"upvoteCount","type":"uint256","internalType":"uint256"},{"name":"timestamp","type":"uint256","internalType":"uint256"}],"stateMutability":"view"},{"type":"function","name":"getArticleComments","inputs":[{"name":"_articleId","type":"uint256","internalType":"uint256"}],"outputs":[{"name":"","type":"uint256[]","internalType":"uint256[]"}],"stateMutability":"view"},{"type":"function","name":"getArticlesBatch","inputs":[{"name":"_startId","type":"uint256","internalType":"uint256"},{"name":"_count","type":"uint256","internalType":"uint256"}],"outputs":[{"name":"ids","type":"uint256[]","internalType":"uint256[]"},{"name":"curators","type":"address[]","internalType":"address[]"},{"name":"upvoteCounts","type":"uint256[]","internalType":"uint256[]"},{"name":"timestamps","type":"uint256[]","internalType":"uint256[]"}],"stateMutability":"view"},{"type":"function","name":"getComment","inputs":[{"name":"_commentId","type":"uint256","internalType":"uint256"}],"outputs":[{"name":"ipfsHash","type":"string","internalType":"string"},{"name":"articleId","type":"uint256","internalType":"uint256"},{"name":"commenter","type":"address","internalType":"address"},{"name":"upvoteCount","type":"uint256","internalType":"uint256"},{"name":"timestamp","type":"uint256","internalType":"uint256"}],"stateMutability":"view"},{"type":"function","name":"getDisplayName","inputs":[{"name":"_user","type":"address","internalType":"address"}],"outputs":[{"name":"","type":"string","internalType":"string"}],"stateMutability":"view"},{"type":"function","name":"getPlatformStats","inputs":[],"outputs":[{"name":"totalArticles","type":"uint256","internalType":"uint256"},{"name":"totalComments","type":"uint256","internalType":"uint256"}],"stateMutability":"view"},{"type":"function","name":"getUserPoints","inputs":[{"name":"_user","type":"address","internalType":"address"}],"outputs":[{"name":"","type":"uint256","internalType":"uint256"}],"stateMutability":"view"},{"type":"function","name":"hasUpvotedArticle","inputs":[{"name":"","type":"address","internalType":"address"},{"name":"","type":"uint256","internalType":"uint256"}],"outputs":[{"name":"","type":"bool","internalType":"bool"}],"stateMutability":"view"},{"type":"function","name":"hasUpvotedComment","inputs":[{"name":"","type":"address","internalType":"address"},{"name":"","type":"uint256","internalType":"uint256"}],"outputs":[{"name":"","type":"bool","internalType":"bool"}],"stateMutability":"view"},{"type":"function","name":"hasUserUpvotedArticle","inputs":[{"name":"_user","type":"address","internalType":"address"},{"name":"_articleId","type":"uint256","internalType":"uint256"}],"outputs":[{"name":"","type":"bool","internalType":"bool"}],"stateMutability":"view"},{"type":"function","name":"hasUserUpvotedComment","inputs":[{"name":"_user","type":"address","internalType":"address"},{"name":"_commentId","type":"uint256","internalType":"uint256"}],"outputs":[{"name":"","type":"bool","internalType":"bool"}],"stateMutability":"view"},{"type":"function","name":"postComment","inputs":[{"name":"_articleId","type":"uint256","internalType":"uint256"},{"name":"_ipfsHash","type":"string","internalType":"string"}],"outputs":[],"stateMutability":"nonpayable"},{"type":"function","name":"setDisplayName","inputs":[{"name":"_newName","type":"string","internalType":"string"}],"outputs":[],"stateMutability":"nonpayable"},{"type":"function","name":"submitArticle","inputs":[{"name":"_ipfsHash","type":"string","internalType":"string"}],"outputs":[],"stateMutability":"nonpayable"},{"type":"function","name":"upvoteArticle","inputs":[{"name":"_articleId","type":"uint256","internalType":"uint256"}],"outputs":[],"stateMutability":"nonpayable"},{"type":"function","name":"upvoteComment","inputs":[{"name":"_commentId","type":"uint256","internalType":"uint256"}],"outputs":[],"stateMutability":"nonpayable"},{"type":"function","name":"userPoints","inputs":[{"name":"","type":"address","internalType":"address"}],"outputs":[{"name":"","type":"uint256","internalType":"uint256"}],"stateMutability":"view"},{"type":"event","name":"ArticleSubmitted","inputs":[{"name":"articleId","type":"uint256","indexed":true,"internalType":"uint256"},{"name":"ipfsHash","type":"string","indexed":false,"internalType":"string"},{"name":"curator","type":"address","indexed":true,"internalType":"address"},{"name":"timestamp","type":"uint256","indexed":false,"internalType":"uint256"}],"anonymous":false},{"type":"event","name":"ArticleUpvoted","inputs":[{"name":"articleId","type":"uint256","indexed":true,"internalType":"uint256"},{"name":"voter","type":"address","indexed":true,"internalType":"address"},{"name":"curator","type":"address","indexed":true,"internalType":"address"},{"name":"newUpvoteCount","type":"uint256","indexed":false,"internalType":"uint256"}],"anonymous":false},{"type":"event","name":"CommentPosted","inputs":[{"name":"articleId","type":"uint256","indexed":true,"internalType":"uint256"},{"name":"commentId","type":"uint256","indexed":true,"internalType":"uint256"},{"name":"ipfsHash","type":"string","indexed":false,"internalType":"string"},{"name":"commenter","type":"address","indexed":true,"internalType":"address"},{"name":"timestamp","type":"uint256","indexed":false,"internalType":"uint256"}],"anonymous":false},{"type":"event","name":"CommentUpvoted","inputs":[{"name":"commentId","type":"uint256","indexed":true,"internalType":"uint256"},{"name":"articleId","type":"uint256","indexed":true,"internalType":"uint256"},{"name":"voter","type":"address","indexed":true,"internalType":"address"},{"name":"commenter","type":"address","indexed":false,"internalType":"address"},{"name":"newUpvoteCount","type":"uint256","indexed":false,"internalType":"uint256"}],"anonymous":false},{"type":"event","name":"DisplayNameSet","inputs":[{"name":"user","type":"address","indexed":true,"internalType":"address"},{"name":"displayName","type":"string","indexed":false,"internalType":"string"}],"anonymous":false},{"type":"event","name":"PointsAwarded","inputs":[{"name":"user","type":"address","indexed":true,"internalType":"address"},{"name":"pointsEarned","type":"uint256","indexed":false,"internalType":"uint256"},{"name":"totalPoints","type":"uint256","indexed":false,"internalType":"uint256"}],"anonymous":false}]};
@@ -60,12 +56,8 @@ const MFDTokenABI = {"abi":[{"type":"constructor","inputs":[{"name":"initialOwne
 
 const MFDClaimerABI = {"abi":[{"type":"constructor","inputs":[{"name":"_monadFeedAddress","type":"address","internalType":"address"},{"name":"_mfdTokenAddress","type":"address","internalType":"address"}],"stateMutability":"nonpayable"},{"type":"function","name":"POINTS_TO_TOKEN_RATE","inputs":[],"outputs":[{"name":"","type":"uint256","internalType":"uint256"}],"stateMutability":"view"},{"type":"function","name":"claimReward","inputs":[],"outputs":[],"stateMutability":"nonpayable"},{"type":"function","name":"hasClaimed","inputs":[{"name":"","type":"address","internalType":"address"}],"outputs":[{"name":"","type":"bool","internalType":"bool"}],"stateMutability":"view"},{"type":"function","name":"mfdToken","inputs":[],"outputs":[{"name":"","type":"address","internalType":"contract IMFDToken"}],"stateMutability":"view"},{"type":"function","name":"monadFeed","inputs":[],"outputs":[{"name":"","type":"address","internalType":"contract IMonadFeed"}],"stateMutability":"view"},{"type":"event","name":"RewardClaimed","inputs":[{"name":"user","type":"address","indexed":true,"internalType":"address"},{"name":"points","type":"uint256","indexed":false,"internalType":"uint256"},{"name":"tokenAmount","type":"uint256","indexed":false,"internalType":"uint256"}],"anonymous":false}]};
 
-// Export Contract Details
-export const CONTRACT_ADDRESS = import.meta.env.VITE_CONTRACT_ADDRESS;
 export const CONTRACT_ABI = MonadFeedABI.abi;
-
 export const MFD_TOKEN_ADDRESS = import.meta.env.VITE_MFD_TOKEN_ADDRESS;
 export const MFD_TOKEN_ABI = MFDTokenABI.abi;
-
 export const MFD_CLAIMER_ADDRESS = import.meta.env.VITE_MFD_CLAIMER_ADDRESS;
 export const MFD_CLAIMER_ABI = MFDClaimerABI.abi;

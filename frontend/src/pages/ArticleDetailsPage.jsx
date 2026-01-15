@@ -7,7 +7,7 @@ import toast from "react-hot-toast";
 import { 
   useAccount, useReadContract, useWriteContract, useWaitForTransactionReceipt, useSwitchChain, useWatchContractEvent
 } from "wagmi";
-import { CONTRACT_ABI, CONTRACT_ADDRESS, activeTestnet } from "../wagmiConfig";
+import { CONTRACT_ABI, CONTRACT_ADDRESS, activeChain } from "../wagmiConfig";
 import { decodeEventLog } from "viem";
 import { ThumbsUp, MessageSquare, ArrowLeft, ExternalLink, FileText, Newspaper, Key, BarChart2, X, Clock, Hexagon } from "lucide-react";
 

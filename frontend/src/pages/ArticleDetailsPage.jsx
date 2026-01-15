@@ -98,9 +98,9 @@ export default function ArticleDetailPage() {
   const canUpvoteArticle = isConnected && !isCurator && !hasUpvotedArticleLocal;
 
   const callContract = (writeFn, config, toastId) => {
-    if (chainId !== activeTestnet.id) {
+    if (chainId !== activeChain.id) {
       toast.loading("Switching to Arbitrum Testnet...", { id: toastId });
-      switchChain({ chainId: activeTestnet.id }, {
+      switchChain({ chainId: activeChain.id }, {
         onSuccess: () => {
           toast.loading('Please confirm in wallet...', { id: toastId });
           writeFn(config);

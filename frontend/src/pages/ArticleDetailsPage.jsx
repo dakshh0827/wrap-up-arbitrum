@@ -7,7 +7,7 @@ import toast from "react-hot-toast";
 import { 
   useAccount, useReadContract, useWriteContract, useWaitForTransactionReceipt, useSwitchChain, useWatchContractEvent
 } from "wagmi";
-import { CONTRACT_ABI, CONTRACT_ADDRESS, mantleSepolia } from "../wagmiConfig";
+import { CONTRACT_ABI, CONTRACT_ADDRESS, activeTestnet } from "../wagmiConfig";
 import { decodeEventLog } from "viem";
 import { ThumbsUp, MessageSquare, ArrowLeft, ExternalLink, FileText, Newspaper, Key, BarChart2, X, Clock, Hexagon } from "lucide-react";
 
@@ -98,9 +98,9 @@ export default function ArticleDetailPage() {
   const canUpvoteArticle = isConnected && !isCurator && !hasUpvotedArticleLocal;
 
   const callContract = (writeFn, config, toastId) => {
-    if (chainId !== mantleSepolia.id) {
-      toast.loading("Switching to Mantle Testnet...", { id: toastId });
-      switchChain({ chainId: mantleSepolia.id }, {
+    if (chainId !== activeTestnet.id) {
+      toast.loading("Switching to Arbitrum Testnet...", { id: toastId });
+      switchChain({ chainId: activeTestnet.id }, {
         onSuccess: () => {
           toast.loading('Please confirm in wallet...', { id: toastId });
           writeFn(config);

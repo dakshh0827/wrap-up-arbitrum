@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { useArticleStore } from "../stores/articleStore";
 import { useAccount, useWriteContract, useWaitForTransactionReceipt, useSwitchChain } from "wagmi";
-import { CONTRACT_ABI, CONTRACT_ADDRESS, mantleSepolia } from "../wagmiConfig";
+import { CONTRACT_ABI, CONTRACT_ADDRESS, activeChain } from "../wagmiConfig";
 import { decodeEventLog } from "viem";
 import axios from "axios";
 import { Search, X, Link2, BookOpen, Zap, Link as LinkIcon, Save, Layers, ArrowRight } from "lucide-react";
@@ -63,8 +63,8 @@ export default function LandingPage() {
       const submitToContract = () => {
         writeContract({ address: CONTRACT_ADDRESS, abi: CONTRACT_ABI, functionName: 'submitArticle', args: [ipfsHash] });
       };
-      if (chainId !== mantleSepolia.id) {
-        switchChain({ chainId: mantleSepolia.id }, {
+      if (chainId !== activeChain.id) {
+        switchChain({ chainId: activeChain.id }, {
           onSuccess: () => submitToContract(),
           onError: () => { toast.error("Network switch failed", { id: loadingToast }); setLoading(false); }
         });
@@ -77,7 +77,7 @@ export default function LandingPage() {
   };
 
   useEffect(() => {
-    if (isConfirming) { setCuratingStep('confirming'); toast.loading('Confirming on Mantle...', { id: "loadingToast" }); }
+    if (isConfirming) { setCuratingStep('confirming'); toast.loading('Confirming on Arbitrum...', { id: "loadingToast" }); }
     if (isConfirmed && receipt) {
       setCuratingStep('done');
       toast.success('Curated on-chain!', { id: "loadingToast" });
@@ -123,7 +123,7 @@ export default function LandingPage() {
                 Wrap-Up any <span className="text-[#10b981]">Article.</span>
             </h1>
             <p className="text-zinc-500 text-xl max-w-2xl mx-auto leading-relaxed">
-                The curation layer for the verifiable web. Scrape, analyze, and mint articles to the Mantle blockchain.
+                The curation layer for the verifiable web. Scrape, analyze, and mint articles to the Arbitrum blockchain.
             </p>
         </div>
 
@@ -208,7 +208,7 @@ export default function LandingPage() {
                         { icon: Search, title: "Input", desc: "Paste any article URL directly." },
                         { icon: Zap, title: "Process", desc: "AI extracts & summarizes insights." },
                         { icon: Save, title: "Store", desc: "Permanent IPFS decentralized storage." },
-                        { icon: Link2, title: "Mint", desc: "Verifiable record on Mantle Chain." }
+                        { icon: Link2, title: "Mint", desc: "Verifiable record on Arbitrum Chain." }
                     ].map((step, i) => (
                         <div key={i} className="group p-8 rounded-2xl border border-[#27272a] bg-[#121214]/50 hover:bg-[#121214] hover:border-[#10b981] transition-all duration-300">
                             <div className="w-12 h-12 bg-[#18181b] rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 border border-[#27272a]">

@@ -344,8 +344,8 @@ wrap-up/
 ### Deployed Addresses (Arbitrum Sepolia)
 ```javascript
 MonadFeed:     0x1e9f2F91E0673E3313C68b49a2262814C7d8921e
-MFD Token:     [Your Token Address]
-MFD Claimer:   [Your Claimer Address]
+MFD Token:     0xA5123b6D0e67b634DA8DC118DE99F72f24B6A33a
+MFD Claimer:   0x0b8Fe0D4e677E6a99b2B47b2F34A0e0D85240C24
 ```
 
 ---
